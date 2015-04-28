@@ -7,6 +7,19 @@ A minimalistic but colorful [ZSH](http://www.zsh.org/) theme made to **show you 
 *vibrant* is works well with [Oh My ZSH](http://ohmyz.sh/), [Git](http://git-scm.com/) and Unicode fonts. It is heavily inspired by [*agnoster*'s ZSH theme](https://gist.github.com/agnoster/3712874).
 
 
+## Installing
+
+ZSH needs to be [installed](See https://gist.github.com/derhuerst/12a1558a4b408b3b2b6e).
+
+```shell
+curl -L https://raw.github.com/derhuerst/vibrant-zsh-theme/master/install.sh | sh
+```
+
+### The hard way
+
+Clone the repo and symlink `vibrant.zsh-theme` to `$ZSH/custom`.
+
+
 ## Features
 
 - *vibrant* shows only the current and one parent directory.

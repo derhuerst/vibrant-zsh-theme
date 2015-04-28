@@ -133,6 +133,7 @@ vibrant_print_git() {
 	else
 		identifier=$(echo $identifier | awk 'NF>1{print $NF}') # support initial commit
 		# Print the current branch.
+		# todo: suppress remote branch
 		print -n "%{%F{blue}%}"$vibrant_git_branch${identifier}
 	fi
 
