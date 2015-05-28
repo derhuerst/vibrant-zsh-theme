@@ -23,7 +23,7 @@ Clone the repo and symlink `vibrant.zsh-theme` to `$ZSH/custom`.
 ## Features
 
 - *vibrant* shows only the current and one parent directory.
-- **In a [git](http://git-scm.com/) repository**, it shows you the **branch** and the number of **untracked, unstaged and staged files**.
+- **In a [git](http://git-scm.com/) repository**, it shows you the current **branch, tag or commit** and the number of **untracked, unstaged and staged files**.
 - The number of background jobs is shown.
 - *vibrant* warns priveleged users (e.g. `root`).
 - If the last command exited non-zero, the prompt arrow changes red.
@@ -34,13 +34,13 @@ Clone the repo and symlink `vibrant.zsh-theme` to `$ZSH/custom`.
 By default, *vibrant* uses the following Unicode characters:
 
 ```shell
-echo "\u26a1 \u2699 \u2732 \u00b1 \u2191 \u2442 \u25e6 \u2794 \u2794"
+echo "\u26a1 \u2699 \u2732 \u00b1 \u2191 \u2442 \u27a6 \u25e6 \u2794 \u2794"
 ```
 
 They should look like the following:
 
 ```
-⚡ ⚙ ✲ ± ↑ ⑂ ◦ ➔ ➔
+⚡ ⚙ ✲ ± ↑ ⑂ ➦ ◦ ➔ ➔
 ```
 
 In `Terminal.app` on OS X Mavericks using the font `Menlo`, they look like this:
