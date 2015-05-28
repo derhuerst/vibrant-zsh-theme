@@ -34,11 +34,15 @@ vibrant_git_branch='\u2442' # `⑂
 #vibrant_git_branch='\u2443' # `⑃`
 #vibrant_git_branch='\u2325' # `⌥`
 
+# Git: Symbol in front of the current tag.
+vibrant_git_tag='\u27a6' # `➦`
+#vibrant_git_tag='\u27ad' # `➭`
+#vibrant_git_tag='\u270e' # `✎`
+
 # Git: Symbol in front of the current commit.
 vibrant_git_commit='\u25e6' # `◦`
 #vibrant_git_commit='\u237f' # `⍿`
 #vibrant_git_commit='\u21f4' # `⇴`
-#vibrant_git_commit='\u260a' # `☊`
 
 # Prompt symbol if the last command ran *successfully*.
 vibrant_prompt_ok='\u2794' # `➔`
@@ -103,41 +107,41 @@ vibrant_print_cwd() {
 
 # prints the git status
 vibrant_print_git() {
-	local gitStatus
-	gitStatus=$(git status --porcelain --ignore-submodules 2>/dev/null -b)
-	[[ -z $gitStatus ]] && return # exit if git threw an error
+	local chunks gitStatus untracked unstaged staged branch
 
-	local chunks
 	chunks=()
 
-	local untracked
+	gitStatus=$(git status --porcelain --ignore-submodules -b 2> /dev/null)
+	[[ -z $gitStatus ]] && return # exit if git threw an error
+
 	untracked=$(echo $gitStatus | grep '^\?' | wc -l | bc)
 	[[ $untracked -gt 0 ]] && chunks+="%{%F{red}%}$vibrant_git_untracked$untracked"
 
-	local unstaged
 	unstaged=$(echo $gitStatus | grep '^.[A-Z]' | wc -l | bc)
 	[[ $unstaged -gt 0 ]] && chunks+="%{%F{red}%}$vibrant_git_unstaged$unstaged"
 
-	local staged
 	staged=$(echo $gitStatus | grep '^[A-Z]' | wc -l | bc)
 	[[ $staged -gt 0 ]] && chunks+="%{%F{yellow}%}$vibrant_git_staged$staged"
 
-	[[ -n "$chunks" ]] && print -n "${(j::)chunks} "
-
-	local identifier
-	identifier=$(echo $gitStatus | head -1)
-	if [[ $identifier == *'no branch'* ]]; then
-		# Print the current commit if git is in detached HEAD mode.
-		identifier=$(git reflog show | head -1)
-		print -n "%{%F{blue}%}"$vibrant_git_commit${identifier:0:7}
+	# Check if we've checked out a branch.
+	ref=$(git symbolic-ref --short -q HEAD 2> /dev/null)
+	if [[ -z $ref ]]; then
+		# Check if we've checked out a tag.
+		ref=$(git describe --tag 2> /dev/null)
+		if [[ -z $ref ]]; then
+			# Print the current commit.
+			ref=$(git rev-parse --short HEAD)
+			chunks+="%{%F{blue}%}$vibrant_git_commit$ref "
+		else
+			# Print the current tag.
+			chunks+="%{%F{blue}%}$vibrant_git_tag$ref "
+		fi
 	else
-		identifier=$(echo $identifier | awk 'NF>1{print $NF}') # support initial commit
-		# Print the current branch.
-		# todo: suppress remote branch
-		print -n "%{%F{blue}%}"$vibrant_git_branch${identifier}
+		# Print the current ref.
+		chunks+="%{%F{blue}%}$vibrant_git_branch$ref "
 	fi
 
-	print -n ' '
+	[[ -n "$chunks" ]] && print -n "${(j::)chunks} "
 }
 
 # prints the prompt symbol
