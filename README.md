@@ -1,5 +1,7 @@
 # Vibrant ZSH theme
 
+Note: **This project is abandoned!** I don't contribute to this anymore.
+
 ![screenshot](demo.png)
 
 A minimalistic but colorful [ZSH](http://www.zsh.org/) theme made to **show you *only relevant* information** in an unobtrusive way.
